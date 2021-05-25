@@ -18,10 +18,14 @@ export class UserService {
   constructor(
     @InjectModel('User') private userModel: Model<User>,
     protected authService: AuthService,
-  ) {}
+  ) { }
 
   async indexUser() {
-    const user = this.userModel.find();
+    const user = this.userModel
+      .find()
+      .select(
+        'roles email fullName block createdAt updatedAt'
+      );
     if (!user) {
       throw new NotFoundException('User is not found!');
     }
@@ -106,5 +110,5 @@ export class UserService {
   }
 
   // block user in black líst
-  async blockUser(id: string) {}
+  async blockUser(id: string) { }
 }

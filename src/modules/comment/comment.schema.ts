@@ -12,10 +12,6 @@ export const CommentSchema = new Schema({
     required: true,
     trim: true,
   },
-  id_blog: {
-    type: Schema.Types.ObjectId,
-    ref: DbModel.BLOG,
-  },
   content: {
     type: String,
     required: true,

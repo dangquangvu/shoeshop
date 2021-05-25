@@ -20,7 +20,7 @@ import { Request, Response } from 'express';
 @ApiTags('user')
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   @Get('')
   @HttpCode(HttpStatus.OK)
@@ -36,7 +36,7 @@ export class UserController {
   @ApiOperation({ summary: 'Get User details' })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @Roles(...[UserRoles.ADMIN, UserRoles.MENTOR, UserRoles.USER])
+  @Roles(...[UserRoles.ADMIN, UserRoles.SHIPPER])
   indexUserDetails(
     @Param('id') id: string,
     @Req() request: Request,
@@ -51,7 +51,7 @@ export class UserController {
   @ApiOperation({ summary: 'Edit profile user' })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @Roles(...[UserRoles.ADMIN, UserRoles.MENTOR, UserRoles.USER])
+  @Roles(...[UserRoles.ADMIN, UserRoles.SHIPPER])
   updateProfileUser(
     @Body() inputUpdateUserDto: InputUpdateUserDto,
     @Param('id') id: string,

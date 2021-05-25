@@ -21,7 +21,7 @@ import { User } from 'src/shared/interfaces/db.interface';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @Post('/register')
   @HttpCode(HttpStatus.CREATED)
@@ -40,9 +40,9 @@ export class AuthController {
   @Get('me')
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'test role user' })
+  @ApiOperation({ summary: 'test me' })
   @UseGuards(JwtAuthGuard)
-  @Roles(...[UserRoles.ADMIN, UserRoles.MENTOR])
+  @Roles(...[UserRoles.ADMIN, , UserRoles.SHIPPER])
   getMe() {
     return 'hello world!';
   }

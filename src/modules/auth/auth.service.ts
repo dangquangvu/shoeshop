@@ -31,7 +31,7 @@ export class AuthService {
     let { email, password, fullName, roles } = authCredentialsDto;
     console.log(authCredentialsDto);
     if (!roles) {
-      roles = [UserRoles.USER];
+      roles = [UserRoles.SHIPPER];
     }
     const user = new this.userModel({
       email: email,

@@ -15,12 +15,11 @@ import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { CommentService } from './comment.service';
 import { Request, Response } from 'express';
 import { CommenOutputDto, CreateCommentDto } from './comment.dto';
-import { CreateBlogDTO } from '../blog/blog.dto';
 
 @ApiTags('comment')
 @Controller('comment')
 export class CommentController {
-  constructor(private commentService: CommentService) {}
+  constructor(private commentService: CommentService) { }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
@@ -53,7 +52,7 @@ export class CommentController {
   @ApiOperation({ summary: 'create blog' })
   DeleteBlog(
     @Param('id') id: string,
-    @Body() createBlogDTO: CreateBlogDTO,
+    @Body() createBlogDTO: any,
     @Req() request: Request,
   ): Promise<any> {
     const authHeader = request.headers.authorization;
