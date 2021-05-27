@@ -1,7 +1,8 @@
-import {Module} from '@nestjs/common';
-import {ConfigModule} from '@nestjs/config';
-import {MongooseModule} from '@nestjs/mongoose';
-import {AuthModule} from './modules/auth/auth.module';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from './modules/auth/auth.module';
+import { TransactionModule } from './modules/transaction/transaction.module';
 // import { CommentModule } from './modules/comment/comment.module';
 
 @Module({
@@ -13,6 +14,7 @@ import {AuthModule} from './modules/auth/auth.module';
       useCreateIndex: true,
     }),
     AuthModule,
+    TransactionModule
   ],
 })
-export class AppModule {}
+export class AppModule { }

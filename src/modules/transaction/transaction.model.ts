@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { Transaction } from '../../shared/interfaces/db.interface';
 import { IPagination } from 'src/adapter/pagination/pagination.interface';
 import { db2api, getHeaders } from 'src/shared/helper';
+import { createTxDto } from './transaction.dto';
 
 @Injectable()
 export class TransactionModel {
@@ -25,18 +26,18 @@ export class TransactionModel {
         };
     }
 
-    async insertTx() {
-        const tx = {
-
-        }
-        return true;
+    async insertTx(body: Transaction) {
+        const tx = await this.transactionModel.create(body)
+        return db2api(tx);
     }
 
     async updateTx(txId: string) {
         const tx = await this.transactionModel.findOne({ id: txId })
         if (!tx) {
-            throw new NotFoundException('Transactions is not found!');
+            throw new NotFoundException('Transaction is not found!');
         }
+
+
         return db2api(tx);
     }
 
