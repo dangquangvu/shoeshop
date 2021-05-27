@@ -1,13 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
-import { getStringEnumValues } from 'src/shared/helper';
-import { UserRoles } from '../auth.interface';
+import {ApiProperty} from '@nestjs/swagger';
+import {IsNotEmpty, IsOptional, IsString, MaxLength, MinLength} from 'class-validator';
+import {getStringEnumValues} from 'src/shared/helper';
+import {UserRoles} from '../auth.interface';
 
 export class InputUpdateUserDto {
   @ApiProperty({

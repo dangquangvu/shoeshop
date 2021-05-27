@@ -4,16 +4,13 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
-import { AuthGuard } from '@nestjs/passport';
-import { AuthService } from '../auth.service';
+import {Reflector} from '@nestjs/core';
+import {AuthGuard} from '@nestjs/passport';
+import {AuthService} from '../auth.service';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
-  constructor(
-    private readonly reflector: Reflector,
-    protected authService: AuthService,
-  ) {
+  constructor(private readonly reflector: Reflector, protected authService: AuthService) {
     super();
   }
 
@@ -24,12 +21,12 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (!routeRoles) {
       return true;
     }
-    const hasRole = () => user.roles.some(role => routeRoles.includes(role));
+    const hasRole = () => user.roles.some((role) => routeRoles.includes(role));
     console.log(hasRole(), user.roles);
     if (!user) {
       throw new UnauthorizedException();
     }
-    if (!(hasRole())) {
+    if (!hasRole()) {
       throw new ForbiddenException('Forbidden');
     }
     return true && user;

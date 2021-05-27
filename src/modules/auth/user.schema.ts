@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { getStringEnumValues } from 'src/shared/helper';
-import { UserRoles } from './auth.interface';
+import {getStringEnumValues} from 'src/shared/helper';
+import {UserRoles} from './auth.interface';
 
 export const UserSchema = new mongoose.Schema(
   {

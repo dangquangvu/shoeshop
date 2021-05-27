@@ -3,20 +3,20 @@ import {MongooseModule} from '@nestjs/mongoose';
 import {DbModel} from 'src/shared/constants';
 import {AuthModule} from '../auth/auth.module';
 import {UserSchema} from '../auth/user.schema';
-import {CommentController} from './comment.controller';
-import {CommentSchema} from './comment.schema';
-import {CommentService} from './comment.service';
+import {OrderController} from './order.controller';
+import {OrderSchema} from './order.schema';
+import {OrderService} from './order.service';
 
 @Module({
   imports: [
     AuthModule,
     MongooseModule.forFeature([
-      {name: DbModel.COMMENT, schema: CommentSchema},
+      {name: DbModel.ORDER, schema: OrderSchema},
       {name: DbModel.USER, schema: UserSchema},
     ]),
   ],
-  controllers: [CommentController],
-  providers: [CommentService],
-  exports: [CommentService],
+  controllers: [OrderController],
+  providers: [OrderService],
+  exports: [OrderService],
 })
-export class CommentModule {}
+export class OrderModule {}

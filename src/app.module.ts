@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
-import { AuthModule } from './modules/auth/auth.module';
+import {Module} from '@nestjs/common';
+import {ConfigModule} from '@nestjs/config';
+import {MongooseModule} from '@nestjs/mongoose';
+import {AuthModule} from './modules/auth/auth.module';
 // import { CommentModule } from './modules/comment/comment.module';
 
 @Module({
@@ -15,4 +15,4 @@ import { AuthModule } from './modules/auth/auth.module';
     AuthModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

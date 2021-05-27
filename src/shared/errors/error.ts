@@ -1,6 +1,4 @@
-import {
-  HttpStatus,
-} from '@nestjs/common';
+import {HttpStatus} from '@nestjs/common';
 
 export const Errors = {
   ACCESS_TOKEN_HEADER_NOT_PROVIDED: {

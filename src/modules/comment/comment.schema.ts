@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { DbModel } from '../../shared/constants';
+import {DbModel} from '../../shared/constants';
 const Schema = mongoose.Schema;
 
 export const CommentSchema = new Schema({
