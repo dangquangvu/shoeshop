@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
-import {TransactionStatusEnum, ProductMaterialEnum} from '../../shared/constants';
-import {getStringEnumValues} from '../../shared/helper';
+import { TransactionStatusEnum, ProductMaterialEnum } from '../../shared/constants';
+import { getStringEnumValues } from '../../shared/helper';
 const Schema = mongoose.Schema;
 
 export const ProductSchema = new Schema({
@@ -31,7 +31,7 @@ export const ProductSchema = new Schema({
   size: {
     type: [
       {
-        sizeDetail: {type: String},
+        sizeDetail: { type: String },
         quantity: {
           type: Number,
           required: true,

@@ -6,7 +6,6 @@ import { UserSchema } from '../auth/user.schema';
 import { TransactionController } from './transaction.controller';
 import { TransactionService } from './transaction.service';
 import { TransactionSchema } from './transaction.schema';
-import { TransactionModel } from './transaction.model';
 
 @Module({
   imports: [

@@ -34,9 +34,6 @@ export class UserService {
       .limit(pagination.perPage)
       .sort('-createdAt');
 
-    if (!users) {
-      throw new NotFoundException('User is not found!');
-    }
     return {
       items: db2api(users),
       headers: responseHeaders,
