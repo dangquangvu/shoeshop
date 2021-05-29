@@ -59,3 +59,60 @@ export class ProductDto {
     @IsString()
     material: string;
 }
+
+export class CreateProductDto {
+    @ApiProperty({
+        title: "code product",
+        description: 'HQ111',
+        type: String,
+        required: true,
+    })
+    @IsString()
+    code: string;
+
+    @ApiProperty({
+        title: 'name product',
+        description: 'giay da nam han quoc',
+        type: String,
+        required: true,
+    })
+    @IsString()
+    name: string;
+
+    @ApiProperty({
+        title: 'description',
+        description: 'giay da nam han quoc sieu dep',
+        type: String,
+        required: false,
+    })
+    @IsString()
+    description: string;
+
+    @ApiProperty({
+        title: "gender product",
+        description: 'giay nam',
+        type: Boolean,
+        required: true,
+    })
+    @IsBoolean()
+    gender: boolean;
+
+    @ApiProperty({
+        title: 'price',
+        description: '500,000',
+        type: Number,
+        required: true,
+    })
+    @IsNumber()
+    price: number;
+
+    @ApiProperty({
+        title: "material product",
+        description: 'da hay vai',
+        type: String,
+        required: true,
+        enum: getStringEnumValues(ProductMaterialEnum)
+    })
+    @IsString()
+    material: string;
+}

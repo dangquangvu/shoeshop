@@ -1,4 +1,4 @@
-import {Document} from 'mongoose';
+import { Document } from 'mongoose';
 
 export interface User extends Document {
   fullName?: string;
@@ -47,11 +47,11 @@ export interface Order extends Document {
 
 export interface Product extends Document {
   code: string; // ma code giay
-  styleIds: [string];
+  styleIds?: [string];
   name: string;
   gender?: boolean;
   price: number;
-  size: [{sizeDetail: number; quantity: number}];
+  size?: [{ sizeDetail: number; quantity: number }];
   oldFashion?: boolean;
   description?: string;
   images?: [string];

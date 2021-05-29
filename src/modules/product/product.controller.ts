@@ -5,7 +5,7 @@ import { Pagination } from 'src/shared/decorators/pagination.decorator';
 import { Roles } from 'src/shared/decorators/roles.decorator';
 import { UserRoles } from '../auth/auth.interface';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
-import { ProductDto } from './product.dto';
+import { CreateProductDto, ProductDto } from './product.dto';
 import { ProductService } from './product.service';
 @ApiTags('product')
 @Controller('product')
@@ -45,8 +45,7 @@ export class ProductController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @Roles(...[UserRoles.ADMIN])
-    createTx(@Body() createTxDto: any): Promise<any> {
-        // return this.transactionService.createTx(createTxDto)
-        return;
+    createProduct(@Body() createProductDto: CreateProductDto): Promise<any> {
+        return this.productService.createProduct(createProductDto)
     }
 }

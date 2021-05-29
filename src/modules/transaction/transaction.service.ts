@@ -6,7 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { getHeaders } from 'src/adapter/pagination/pagination.helper';
 import { IPagination } from 'src/adapter/pagination/pagination.interface';
-import { TransactionStatusEnum } from 'src/shared/constants';
+import { addMongooseParam, TransactionStatusEnum } from 'src/shared/constants';
 import { db2api } from 'src/shared/helper';
 import { Transaction } from 'src/shared/interfaces/db.interface';
 import { CreateTxDto, TxDto } from './transaction.dto';
@@ -18,7 +18,7 @@ export class TransactionService {
 
     async indexTxs(filters: TxDto, pagination: IPagination): Promise<any> {
         const findParams = this.getFilterParamsIndexTxs(filters);
-        const transactionCount = await this.transactionModel.count(findParams);
+        const transactionCount = await this.transactionModel.countDocuments(findParams);
         const responseHeaders = getHeaders(pagination, transactionCount);
         const txs = await this.transactionModel.find(findParams)
             .skip(pagination.startIndex)
@@ -51,12 +51,19 @@ export class TransactionService {
 
     getFilterParamsIndexTxs(filters) {
         const findParams: any = {}
-        if (filters.name) {
-            findParams.name = filters.name;
+        if (filters.name && filters.email) {
+            findParams.$or = [{ name: filters.name }, { email: filters.email }];
+        }
+        if (filters.name && !filters.email) {
+            findParams.name = addMongooseParam(findParams.name, '$regex', new RegExp(filters.name, 'i'));
         }
 
-        if (filters.email) {
-            findParams.email = filters.email;
+        if (filters.email && !filters.name) {
+            findParams.email = addMongooseParam(
+                findParams.email,
+                '$regex',
+                new RegExp(filters.email, 'i'),
+            );
         }
 
         if (filters.phone) {
