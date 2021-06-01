@@ -19,9 +19,9 @@ export class TransactionController {
     @Get('')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'Get All Txs' })
-    // @UseGuards(JwtAuthGuard)
-    // @ApiBearerAuth()
-    // @Roles(...[UserRoles.ADMIN])
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @Roles(...[UserRoles.ADMIN])
     @ApiQuery({
         name: 'page',
         required: false,
@@ -44,9 +44,9 @@ export class TransactionController {
     @Post('create')
     @HttpCode(HttpStatus.CREATED)
     @ApiOperation({ summary: 'Create transaction' })
-    // @UseGuards(JwtAuthGuard)
-    // @ApiBearerAuth()
-    // @Roles(...[UserRoles.ADMIN])
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @Roles(...[UserRoles.ADMIN])
     createTx(@Body() createTx: CreateTxDto): Promise<Transaction> {
         return this.transactionService.createTx(createTx)
     }
@@ -54,9 +54,9 @@ export class TransactionController {
     @Put(':id')
     @HttpCode(HttpStatus.CREATED)
     @ApiOperation({ summary: 'update transaction' })
-    // @UseGuards(JwtAuthGuard)
-    // @ApiBearerAuth()
-    // @Roles(...[UserRoles.ADMIN])
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @Roles(...[UserRoles.ADMIN])
     updateTx(@Param('id') id: string, @Body() updateTx: UpdateTxDto): Promise<Transaction> {
         return this.transactionService.updateTx(id, updateTx)
     }
@@ -64,9 +64,9 @@ export class TransactionController {
     @Delete(':id')
     @HttpCode(HttpStatus.CREATED)
     @ApiOperation({ summary: 'update transaction' })
-    // @UseGuards(JwtAuthGuard)
-    // @ApiBearerAuth()
-    // @Roles(...[UserRoles.ADMIN])
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @Roles(...[UserRoles.ADMIN])
     deleteTx(@Param('id') id: string): Promise<Transaction> {
         return this.transactionService.deleteTx(id)
     }
