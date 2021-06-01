@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import {IPagination, IPaginationHeader} from 'src/adapter/pagination/pagination.interface';
+import { IPagination, IPaginationHeader } from 'src/adapter/pagination/pagination.interface';
 
 export function getStringEnumValues<E extends Record<keyof E, string>>(e: E): E[keyof E][] {
   return (Object.keys(e) as (keyof E)[]).map((k) => e[k]);
@@ -84,3 +84,7 @@ export const db2api = (db: any, exclude?: Array<string>): any => {
   }
   return response;
 };
+
+export function isObjectId(id: string): boolean {
+  return mongoose.Types.ObjectId.isValid(id);
+}

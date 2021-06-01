@@ -40,9 +40,9 @@ export interface Order extends Document {
   status: string; // [fail/pending/success]
   messagesCustomer?: string; // nguoi dat hang
   messageCancel?: string;
-  closeDate?: Date;
-  created_at?: Date;
-  updated_at?: Date;
+  closeDate?: String;
+  created_at?: String;
+  updated_at?: String;
 }
 
 export interface Product extends Document {
@@ -51,27 +51,32 @@ export interface Product extends Document {
   name: string;
   gender?: boolean;
   price: number;
-  size?: [{ sizeDetail: number; quantity: number }];
+  size?: { sizeDetail: number; quantity: number }[];
   oldFashion?: boolean;
   description?: string;
-  images?: [string];
+  images?: string[];
   material?: string; // chat lieu
   color?: string;
-  created_at?: Date;
-  updated_at?: Date;
+  created_at?: String;
+  updated_at?: String;
 }
 export interface Transaction extends Document {
   email: string;
   name: string;
   phone: string;
   address: string;
-  messages?: string;
-  quantity: number; // num of product
   status: string; //[fail, pending, success]
-  productIds: [string];
-  price: number;
-  created_at?: Date;
-  updated_at?: Date;
+  products: {
+    id: string,
+    sizeDetail: number,
+    quantity: number,
+    amount: number;
+  }[];
+  totalAmount: number;
+  totalQuantity: number; // num of product
+  messages?: string;
+  created_at?: String;
+  updated_at?: String;
 }
 
 export interface Comment extends Document {
@@ -82,6 +87,6 @@ export interface Comment extends Document {
   like: number;
   isedit: boolean;
   isannounce: boolean;
-  created_at?: Date;
-  updated_at?: Date;
+  created_at?: String;
+  updated_at?: String;
 }

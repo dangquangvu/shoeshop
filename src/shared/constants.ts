@@ -21,7 +21,7 @@ export const DbModel = {
 };
 
 export enum TransactionStatusEnum {
-  ERROR = 'error', //co loi xay ra
+  ERROR = 'error', // giao dich bi huy
   SUCCESS = 'success', // thanh cong
   PENDING = 'pending', // transaction dang cho
   FAILED = 'failed', //cac transaction khong thanh cong

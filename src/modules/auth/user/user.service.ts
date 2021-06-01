@@ -26,7 +26,6 @@ export class UserService {
     const findParams = {};
     const usersCount = await this.userModel.countDocuments(findParams);
     const responseHeaders = getHeaders(pagination, usersCount);
-    console.log(pagination);
     const users = await this.userModel
       .find(findParams)
       .select('roles email fullName block createdAt updatedAt')

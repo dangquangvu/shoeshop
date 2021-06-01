@@ -4,14 +4,14 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import {InjectModel} from '@nestjs/mongoose';
-import {Model} from 'mongoose';
-import {CreateUserDto, LoginUserDto} from './auth.dto';
-import {UserRoles} from './auth.interface';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { CreateUserDto, LoginUserDto } from './auth.dto';
+import { UserRoles } from './auth.interface';
 import * as bcrypt from 'bcrypt';
 import * as Cryptr from 'cryptr';
 import * as jwt from 'jsonwebtoken';
-import {User} from 'src/shared/interfaces/db.interface';
+import { User } from 'src/shared/interfaces/db.interface';
 
 @Injectable()
 export class AuthService {
@@ -21,15 +21,14 @@ export class AuthService {
   }
 
   createAccessToken(payload: any) {
-    const accessToken = jwt.sign({payload}, process.env.JWT_SECRET, {
+    const accessToken = jwt.sign({ payload }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRATION,
     });
     return this.encryptText(accessToken);
   }
 
   async signUp(authCredentialsDto: CreateUserDto) {
-    let {email, password, fullName, roles} = authCredentialsDto;
-    console.log(authCredentialsDto);
+    let { email, password, fullName, roles } = authCredentialsDto;
     if (!roles) {
       roles = [UserRoles.SHIPPER];
     }
@@ -52,13 +51,12 @@ export class AuthService {
   }
 
   async login(loginUserDto: LoginUserDto) {
-    console.log(loginUserDto);
     const user = await this.findUserByEmail(loginUserDto.email);
     if (!user) {
       throw new NotFoundException('Password or email not match, please try again!');
     }
     await this.checkPassword(loginUserDto.password, user.password);
-    const payload = {email: user.email, id: user._id};
+    const payload = { email: user.email, id: user._id };
 
     return {
       id: user._id,
@@ -92,7 +90,7 @@ export class AuthService {
   }
 
   async validateUser(email: string, pass: string): Promise<User> {
-    const user = await this.userModel.findOne({email: email});
+    const user = await this.userModel.findOne({ email: email });
     if (!user) {
       return null;
     }
@@ -107,7 +105,7 @@ export class AuthService {
   }
 
   async findUserByEmail(email: string): Promise<User> {
-    const user = await this.userModel.findOne({email});
+    const user = await this.userModel.findOne({ email });
     if (!user) {
       throw new NotFoundException('Wrong email or password.');
     }

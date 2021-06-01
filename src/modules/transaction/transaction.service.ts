@@ -7,13 +7,15 @@ import { Model } from 'mongoose';
 import { getHeaders } from 'src/adapter/pagination/pagination.helper';
 import { IPagination } from 'src/adapter/pagination/pagination.interface';
 import { addMongooseParam, TransactionStatusEnum } from 'src/shared/constants';
-import { db2api } from 'src/shared/helper';
-import { Transaction } from 'src/shared/interfaces/db.interface';
-import { CreateTxDto, TxDto } from './transaction.dto';
+import { db2api, isObjectId } from 'src/shared/helper';
+import { Product, Transaction } from 'src/shared/interfaces/db.interface';
+import { CreateTxDto, ProductTx, TxDto, UpdateTxDto } from './transaction.dto';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class TransactionService {
-    constructor(@InjectModel('Transaction') private transactionModel: Model<Transaction>
+    constructor(@InjectModel('Transaction') private transactionModel: Model<Transaction>,
+        @InjectModel('Product') private productModel: Model<Product>
     ) { }
 
     async indexTxs(filters: TxDto, pagination: IPagination): Promise<any> {
@@ -31,21 +33,57 @@ export class TransactionService {
         };
     }
 
-    async createTx(createTxDto: CreateTxDto): Promise<Transaction> {
+    async createTx(createTx: CreateTxDto): Promise<Transaction> {
+        const products: ProductTx[] = createTx.products;
+        await this.checkProductIds(products);
+        let totalQuantity = 0;
+        let totalAmount = 0;
+        createTx.products.map(el => {
+            totalAmount += el.amount * el.quantity;
+            totalQuantity += el.quantity;
+        })
         const save = {
-            name: createTxDto.name,
-            address: createTxDto.address,
-            phone: createTxDto.phone,
-            productIds: createTxDto.productIds,
-            price: createTxDto.price,
-            quantity: createTxDto.quantity,
+            name: createTx.name,
+            address: createTx.address,
+            phone: createTx.phone,
+            products: createTx.products,
+            totalAmount: totalAmount,
+            totalQuantity: totalQuantity,
             status: TransactionStatusEnum.PENDING,
-            ...(createTxDto.email && { email: createTxDto.email }),
-            ...(createTxDto.messages && { messages: createTxDto.messages }),
+            ...(createTx.email && { email: createTx.email }),
+            ...(createTx.messages && { messages: createTx.messages }),
+        }
+        return await this.transactionModel.create(save)
+    }
+
+    async updateTx(id: string, updateTx: UpdateTxDto): Promise<Transaction> {
+        if (!isObjectId(id)) {
+            throw new BadRequestException("id is not objectId!")
+        }
+        if (!TransactionStatusEnum[(updateTx.status).toUpperCase()]) {
+            throw new BadRequestException("status is incorrect!")
         }
 
-        const create = await this.transactionModel.create(save);
-        return create;
+        const tx = await this.transactionModel.findOne({ _id: id });
+
+        if (!tx) {
+            throw new NotFoundException("Transaction is not found!")
+        }
+        tx.status = updateTx.status;
+        tx.updated_at = JSON.stringify(Date.now());
+        return await tx.save();
+    }
+
+    async deleteTx(id: string): Promise<Transaction> {
+        if (!isObjectId(id)) {
+            throw new BadRequestException("id is not objectId!")
+        }
+        const tx = await this.transactionModel.findOne({ _id: id });
+        if (!tx) {
+            throw new NotFoundException("Transaction is not found!")
+        }
+
+        return await tx.deleteOne();
     }
 
 
@@ -74,5 +112,34 @@ export class TransactionService {
             findParams.status = filters.status;
         }
         return findParams;
+    }
+
+    async checkProductIds(products: ProductTx[]) {
+        const ids = products.map(item => item.id);
+        this.isOcjectId(ids);
+        const productIds = (await this.productModel.find({ _id: { $in: ids } })).map(el => (el._id).toString())
+        if (this.equar(ids, productIds) === false) {
+            throw new NotFoundException('ProductIds input not found');
+        }
+        return;
+    }
+
+
+    equar(a: string[], b: string[]) {
+        for (let x = 0; x < a.length; x++) {
+            if (b.includes(a[x]) === false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    isOcjectId(ids: string[]) {
+        for (let index = 0; index < ids.length; index++) {
+            if (isObjectId(ids[index]) === false) {
+                throw new BadRequestException('Product id ' + `${(ids[index])}` + 'is not ObjectId')
+            }
+        }
+        return true;
     }
 }

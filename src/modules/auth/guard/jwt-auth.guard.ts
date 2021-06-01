@@ -4,9 +4,9 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import {Reflector} from '@nestjs/core';
-import {AuthGuard} from '@nestjs/passport';
-import {AuthService} from '../auth.service';
+import { Reflector } from '@nestjs/core';
+import { AuthGuard } from '@nestjs/passport';
+import { AuthService } from '../auth.service';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -17,12 +17,10 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const routeRoles = this.getRouteRoles(context);
     const user = await this.getUserData(context);
-    console.log(routeRoles);
     if (!routeRoles) {
       return true;
     }
     const hasRole = () => user.roles.some((role) => routeRoles.includes(role));
-    console.log(hasRole(), user.roles);
     if (!user) {
       throw new UnauthorizedException();
     }

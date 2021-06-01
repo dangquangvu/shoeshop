@@ -6,13 +6,14 @@ import { UserSchema } from '../auth/user.schema';
 import { TransactionController } from './transaction.controller';
 import { TransactionService } from './transaction.service';
 import { TransactionSchema } from './transaction.schema';
+import { ProductSchema } from '../product/product.schema';
 
 @Module({
   imports: [
     AuthModule,
     MongooseModule.forFeature([
       { name: DbModel.TRANSACTION, schema: TransactionSchema },
-      { name: DbModel.USER, schema: UserSchema },
+      { name: DbModel.PRODUCT, schema: ProductSchema },
     ]),
   ],
   controllers: [TransactionController],

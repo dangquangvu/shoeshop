@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
-import {TransactionStatusEnum} from '../../shared/constants';
-import {getStringEnumValues} from '../../shared/helper';
+import { TransactionStatusEnum } from '../../shared/constants';
+import { getStringEnumValues } from '../../shared/helper';
 const Schema = mongoose.Schema;
 
 export const TransactionSchema = new Schema({
@@ -24,20 +24,31 @@ export const TransactionSchema = new Schema({
     required: true,
     trim: true,
   },
-  quantity: {
-    type: Number,
-    required: true,
-  },
-  price: {
-    type: Number,
-    default: 0,
-  },
   status: {
     type: String,
     enum: getStringEnumValues(TransactionStatusEnum),
   },
-  productIds: {
-    type: [Schema.Types.ObjectId],
+  products: {
+    type: [
+      {
+        id: { type: String },
+        sizeDetail: { type: String },
+        quantity: {
+          type: Number,
+        },
+        amount: {
+          type: Number,
+        },
+      },
+    ],
+  },
+  totalAmount: {
+    type: Number,
+    default: 0,
+  },
+  totalQuantity: {
+    type: Number,
+    required: true,
   },
   messages: {
     type: String,
