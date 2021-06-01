@@ -44,14 +44,14 @@ export class TransactionService {
         })
         const save = {
             name: createTx.name,
+            email: createTx.email || null,
             address: createTx.address,
             phone: createTx.phone,
             products: createTx.products,
             totalAmount: totalAmount,
             totalQuantity: totalQuantity,
             status: TransactionStatusEnum.PENDING,
-            ...(createTx.email && { email: createTx.email }),
-            ...(createTx.messages && { messages: createTx.messages }),
+            messagesCustomer: createTx.messagesCustomer || null,
         }
         return await this.transactionModel.create(save)
     }
@@ -65,11 +65,17 @@ export class TransactionService {
         }
 
         const tx = await this.transactionModel.findOne({ _id: id });
-
         if (!tx) {
             throw new NotFoundException("Transaction is not found!")
         }
+        if (tx.isClose) {
+            throw new BadRequestException("transaction is close!")
+        }
         tx.status = updateTx.status;
+        if (updateTx.status === TransactionStatusEnum.SUCCESS || updateTx.status === TransactionStatusEnum.FAILED || updateTx.status === TransactionStatusEnum.ERROR) {
+            tx.isClose = true;
+            tx.closeDate = JSON.stringify(Date.now());
+        }
         tx.updated_at = JSON.stringify(Date.now());
         return await tx.save();
     }
@@ -82,7 +88,9 @@ export class TransactionService {
         if (!tx) {
             throw new NotFoundException("Transaction is not found!")
         }
-
+        if (tx.isClose) {
+            throw new BadRequestException("transaction is close!")
+        }
         return await tx.deleteOne();
     }
 

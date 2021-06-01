@@ -50,10 +50,25 @@ export const TransactionSchema = new Schema({
     type: Number,
     required: true,
   },
-  messages: {
+  isClose: {
+    type: Boolean,
+    default: false
+  },
+  messagesCustomer: {
     type: String,
     required: false,
     trim: true,
+    default: null
+  },
+  messagesCancel: {
+    type: String,
+    required: false,
+    trim: true,
+    default: null
+  },
+  closeDate: {
+    type: Date,
+    default: null
   },
   created_at: {
     type: Date,

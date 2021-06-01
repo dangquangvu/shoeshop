@@ -25,7 +25,7 @@ export enum TransactionStatusEnum {
   SUCCESS = 'success', // thanh cong
   PENDING = 'pending', // transaction dang cho
   FAILED = 'failed', //cac transaction khong thanh cong
-  PROCESSED = 'processed', // cac transaction dang xu ly
+  PROCESSING = 'processing', // cac transaction dang xu ly
 }
 
 export enum OrderStatusEnum {

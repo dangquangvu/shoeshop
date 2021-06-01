@@ -28,23 +28,6 @@ export interface Blog extends Document {
   updated_at?: Date;
 }
 
-export interface Order extends Document {
-  email: string;
-  name: string;
-  phone: string;
-  address: string;
-  productIds: [string];
-  quantity: number;
-  price: number;
-  isClose: string; //[open/close]
-  status: string; // [fail/pending/success]
-  messagesCustomer?: string; // nguoi dat hang
-  messageCancel?: string;
-  closeDate?: String;
-  created_at?: String;
-  updated_at?: String;
-}
-
 export interface Product extends Document {
   code: string; // ma code giay
   styleIds?: [string];
@@ -60,6 +43,7 @@ export interface Product extends Document {
   created_at?: String;
   updated_at?: String;
 }
+
 export interface Transaction extends Document {
   email: string;
   name: string;
@@ -75,6 +59,36 @@ export interface Transaction extends Document {
   totalAmount: number;
   totalQuantity: number; // num of product
   messages?: string;
+  // order feature
+  isClose?: boolean; //[open/close]
+  messagesCustomer?: string; // nguoi dat hang
+  messageCancel?: string;
+  closeDate?: String;
+  created_at?: String;
+  updated_at?: String;
+}
+
+
+
+// future feature
+export interface Order extends Document {
+  email: string;
+  name: string;
+  phone: string;
+  address: string;
+  products: {
+    id: string,
+    sizeDetail: number,
+    quantity: number,
+    amount: number;
+  }[];
+  totalAmount: number;
+  totalQuantity: number; // num of product
+  status: string; // [fail/pending/success]
+  isClose: string; //[open/close]
+  messagesCustomer?: string; // nguoi dat hang
+  messageCancel?: string;
+  closeDate?: String;
   created_at?: String;
   updated_at?: String;
 }

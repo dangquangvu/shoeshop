@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsArray, IsBoolean, IsNumber, IsString } from "class-validator";
 import { getStringEnumValues } from '../../shared/helper';
 import { TransactionStatusEnum } from '../../shared/constants';
 
@@ -50,6 +50,16 @@ export class TxDto {
     })
     @IsString()
     status: string;
+
+    @ApiProperty({
+        title: "is close",
+        description: 'status transaction close',
+        type: Boolean,
+        required: false,
+        default: false
+    })
+    @IsBoolean()
+    isClose: boolean;
 }
 
 export class CreateTxDto extends TxDto {
@@ -78,20 +88,20 @@ export class CreateTxDto extends TxDto {
     address: string;
 
     @ApiProperty({
-        description: 'messages recive product',
+        description: 'messages where recive the product',
         type: String,
         required: false,
     })
     @IsString()
-    messages?: string;
+    messagesCustomer?: string;
 
-    // @ApiProperty({
-    //     description: 'total quantity product buy',
-    //     type: Number,
-    //     required: true,
-    // })
-    // @IsNumber()
-    // totalQuantity: number;
+    @ApiProperty({
+        description: 'messages where recive the product',
+        type: String,
+        required: false,
+    })
+    @IsString()
+    messageCancel?: string;
 
     @ApiProperty({
         title: 'product',
@@ -102,15 +112,6 @@ export class CreateTxDto extends TxDto {
     @IsArray()
     @IsString({ each: true })
     products: ProductTx[];
-
-    // @ApiProperty({
-    //     description: 'total amount product buy',
-    //     type: String,
-    //     required: true,
-    //     default: 1
-    // })
-    // @IsNumber()
-    // totalAmount: number;
 }
 
 export class UpdateTxDto {
@@ -124,6 +125,15 @@ export class UpdateTxDto {
     })
     @IsString()
     status: string;
+
+    @ApiProperty({
+        title: 'messages cancel',
+        description: 'I do not need the product',
+        type: String,
+        required: false,
+    })
+    @IsString()
+    messageCancel?: string;
 }
 
 export class ProductTx {

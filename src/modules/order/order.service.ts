@@ -6,13 +6,17 @@ import { Order, Transaction } from 'src/shared/interfaces/db.interface';
 
 @Injectable()
 export class OrderService {
-    indexOrders(filters: any, pagination: IPagination): any {
-        throw new Error('Method not implemented.');
-    }
+
     constructor(
         @InjectModel('Transaction') private transactionModel: Model<Transaction>,
         @InjectModel('Order') private orderModel: Model<Order>,
     ) { }
 
 
+    indexOrders(filters: any, pagination: IPagination): any {
+        throw new Error('Method not implemented.');
+    }
+    createOrder(): Promise<any> {
+        throw new Error('Method not implemented.');
+    }
 }
